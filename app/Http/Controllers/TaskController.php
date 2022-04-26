@@ -5,9 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Services\TaskService;
 
 class TaskController extends Controller
 {
+
+    private $taskService;
+    public function __construct()
+    {
+        $this->taskService = new TaskService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -25,31 +32,11 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function import(StoreTaskRequest $request)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreTaskRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreTaskRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Task $task)
-    {
-        //
+       $this->taskService->importTasksFromExcel(request()->file('tasks_file'));
+       return back()->withErrors(['Please Choose a valid file']);
+    
     }
 
     /**
@@ -75,14 +62,5 @@ class TaskController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Task  $task
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Task $task)
-    {
-        //
-    }
+ 
 }

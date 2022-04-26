@@ -23,6 +23,7 @@ Route::name('dashboard.')->middleware('auth')->group(function(){
     // Task Manager Routes 
     Route::get('all-tasks',[TaskController::class,'index'])->name('tasks.all');
     Route::get('tasks/edit/{id}',[TaskController::class,'edit'])->name('tasks.edit');
+    Route::post('tasks/import',[TaskController::class,'import'])->name('tasks.import');
 });
 Route::get('/dashboard', function () {
     return view('dashboard');

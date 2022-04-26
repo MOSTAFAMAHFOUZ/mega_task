@@ -12,8 +12,29 @@
   </head>
   <body>
     <h1 class="p-2 text-center">All Tasks</h1>
+
     <div class="container">
         <div class="row">
+            <div class="col-12">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form method="POST" action="{{route('dashboard.tasks.import')}}"
+                 enctype="multipart/form-data" class="my-3">
+                    <div class="form-group">
+                        <label for="">choose File</label>
+                        <input type="file" name="tasks_file" class="form-control">
+                    </div>
+                    @csrf
+                    <input type="submit" class="btn btn-primary form-control my-1" value="Import Tasks">
+                </form>
+            </div>
             <div class="col-12">
                 <table class="table">
                     <thead>
