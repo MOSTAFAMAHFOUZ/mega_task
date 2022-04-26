@@ -11,7 +11,7 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <h1>All Tasks</h1>
+    <h1 class="p-2 text-center">All Tasks</h1>
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -30,7 +30,7 @@
                     </thead>
                     <tbody>
                         @foreach($data as $row)
-                        <tr>
+                        <tr @if($row->priority=='urgent') class="bg-warning" @endif>
                             <td>{{$loop->iteration}}</td>
                             <td>{{$row->task_name}}</td>
                             <td>{{$row->employee_name}}</td>
@@ -45,7 +45,11 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-center my-4">
+                    {{$data->links()}}
+                </div>
             </div>
+
         </div>
     </div>
 
