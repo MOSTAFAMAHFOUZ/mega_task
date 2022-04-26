@@ -25,6 +25,17 @@
                         </ul>
                     </div>
                 @endif
+                @if(session()->has('error_import'))
+                    <div class="alert alert-danger">
+                        {{session()->get('error_import')}}
+                    </div>
+                @endif
+
+                @if(session()->has('error_db'))
+                    <div class="alert alert-danger">
+                        {{session()->get('error_db')}}
+                    </div>
+                @endif
                 <form method="POST" action="{{route('dashboard.tasks.import')}}"
                  enctype="multipart/form-data" class="my-3">
                     <div class="form-group">

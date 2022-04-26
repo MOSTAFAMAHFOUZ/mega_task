@@ -21,6 +21,7 @@ class CreateTasksTable extends Migration
             $table->string('branch');
             $table->date('due_date');
             $table->string('priority');
+            // $table->unique(array('employee_name', 'task_name'));
             // $table->enum('priority',['urgent','normal']);
             $table->timestamps();
         });

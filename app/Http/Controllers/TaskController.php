@@ -35,7 +35,7 @@ class TaskController extends Controller
     public function import(StoreTaskRequest $request)
     {
        $this->taskService->importTasksFromExcel(request()->file('tasks_file'));
-       return back()->withErrors(['Please Choose a valid file']);
+       return back();
     }
 
     /**
