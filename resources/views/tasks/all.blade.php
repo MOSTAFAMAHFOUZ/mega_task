@@ -36,6 +36,7 @@
                 </form>
             </div>
             <div class="col-12">
+                @if(count($data))
                 <table class="table">
                     <thead>
                         <tr>
@@ -69,6 +70,9 @@
                 <div class="d-flex justify-content-center my-4">
                     {{$data->links()}}
                 </div>
+                @else  
+                    <div class="bg-danger text-white text-center p-3"> Tasks Not Found</div>
+                @endif 
             </div>
 
         </div>

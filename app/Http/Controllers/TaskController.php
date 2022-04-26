@@ -36,7 +36,6 @@ class TaskController extends Controller
     {
        $this->taskService->importTasksFromExcel(request()->file('tasks_file'));
        return back()->withErrors(['Please Choose a valid file']);
-    
     }
 
     /**
