@@ -30,7 +30,7 @@ class TasksImport implements ToCollection, WithHeadingRow,WithChunkReading,Shoul
     public function collection(Collection $rows)
     {
         $this->validateRows($rows);
-        // this condition if data not a huge data and we will not use queue here 
+        // this condition if data not a huge and we will not use queue here 
         // if(!$this->checkIfTaskExist($rows)){
         //     session()->flash("error_import","Duplicated Data");
         //     return false;
@@ -58,7 +58,7 @@ class TasksImport implements ToCollection, WithHeadingRow,WithChunkReading,Shoul
                     }
                 }
             \DB::commit();
-            // $this->sendEmail();
+            $this->sendEmail();
         } catch (Throwable $e) {
             \DB::rollback();
             session()->flash("error_db","Error In Inserting To Database");

@@ -34,9 +34,8 @@ class TaskController extends Controller
      */
     public function import(StoreTaskRequest $request)
     {
-      
        $this->taskService->importTasksFromExcel(request()->file('tasks_file'));
-       return back();
+       return back()->with('success','Data Addedd Successfully , you will recive an email soon ');
     }
 
     /**
