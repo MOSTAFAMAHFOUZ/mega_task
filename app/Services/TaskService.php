@@ -8,6 +8,7 @@ class TaskService{
 
 
     public function importTasksFromExcel($file){
+        // Excel::import(new TasksImport,$file);
         Excel::queueImport(new TasksImport,$file);
     }
 

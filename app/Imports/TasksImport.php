@@ -18,7 +18,7 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 
 
 
-class TasksImport implements ToCollection, WithHeadingRow,WithChunkReading, ShouldQueue
+class TasksImport implements ToCollection, WithHeadingRow,WithChunkReading,ShouldQueue
 {
     // use Queueable;
     private $tasks = [];
@@ -30,30 +30,35 @@ class TasksImport implements ToCollection, WithHeadingRow,WithChunkReading, Shou
     public function collection(Collection $rows)
     {
         $this->validateRows($rows);
+        // this condition if data not a huge data and we will not use queue here 
+        // if(!$this->checkIfTaskExist($rows)){
+        //     session()->flash("error_import","Duplicated Data");
+        //     return false;
+        // }
 
-
-        // return ['Task Must Be unique'];
+        // begin transaction 
         try {
             \DB::beginTransaction();
             foreach ($rows as $row) {
-                
                 // check if the same task is existing or not 
-                // if($this->checkIfTaskExist($row)){
-                    Task::create([
-                        'task_name' => $row['task_name'],
-                        'employee_name' => $row['employee_name'],
-                        'department' => $row['department'],
-                        'branch' => $row['branch'],
-                        'due_date' => date('Y-m-d',strtotime($row['due_date'])),
-                        'priority' => $row['priority']]);
-                // }else{
-                //     session()->flash("error_import","Duplicated Data");
-                //     \DB::rollback();
-                //     return false;
-                // }
-            }
+                    try{
+                        Task::updateOrCreate(
+                                ['task_name'=>$row['task_name'],
+                            'employee_name'=>$row['employee_name']],
+                            [
+                            'task_name' => $row['task_name'],
+                            'employee_name' => $row['employee_name'],
+                            'department' => $row['department'],
+                            'branch' => $row['branch'],
+                            'due_date' => date('Y-m-d',strtotime($row['due_date'])),
+                            'priority' => $row['priority']]);
+                           
+                    }catch(QueryException $e){
+                        session()->flash("error_db","Error In Inserting To Database");
+                    }
+                }
             \DB::commit();
-            $this->sendEmail();
+            // $this->sendEmail();
         } catch (Throwable $e) {
             \DB::rollback();
             session()->flash("error_db","Error In Inserting To Database");
